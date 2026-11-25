@@ -1,7 +1,7 @@
-# APSS Salary Calculation — Requirements & Discovery Notes
+# APSS Salary Calculation — Requirements & Business Rules
 
-**Source:** Teams Walkthrough with Mita (Accounting) + Mita's Written Clarifications  
-**Status:** Requirements confirmed and complete. Ready for architecture & implementation planning.
+**Source:** Finance & Accounting Discovery Sessions + Written Clarifications  
+**Status:** Business requirements confirmed; ready for technical design and implementation planning.
 
 ---
 
@@ -17,7 +17,7 @@
 
 ### 2.1. Singapore (SG) Staff vs. Contracting Staff
 - **Singapore Staff:** Salary is based on a **monthly basic salary** (not hourly calculation).
-  - **CPF:** Handled separately by management (Jessie provides the CPF file at the end of each month; out of scope for system CPF calculation).
+  - **CPF:** Handled separately by Management (CPF file is provided at the end of each month; out of scope for system CPF calculation).
 - **Contracting Staff (and Interns):** Follow the **working hours/days calculation**:
   - `Hourly rate = Basic salary / (Standard working days × 8)`  
     *(Example: `5,000,000 / (22 × 8) = 28,409.09`)*
@@ -28,13 +28,13 @@
     - **Full-day unpaid leave / Absence:** `0 hours` (`0%`)
     - **Public Holiday (not working):** `8 hours` (`100%`)
     - **Public Holiday (working):** `16 hours` (`200%`)
-- **Public Holiday Calendars:** Must be configured **per employee's local country calendar** (e.g., Vietnam, Singapore, Indonesia, Thailand, Malaysia, Myanmar).
+- **Public Holiday Calendars:** Configured **per employee's local country calendar** (e.g., Vietnam, Singapore, Indonesia, Thailand, Malaysia, Myanmar).
 
 ### 2.2. Leave Management & Approval Workflow
 - **Leave Submission:** Staff submit leave requests directly in the system (replacing email requests).
 - **Approval & Notification Routing:**
-  - Respective **Team Leader** + **Jessie** receive notifications to review and approve/reject.
-  - For the **Procurement Team**, **Clea** must also be included as an approver/notified.
+  - Respective **Team Leader** and **Management Approver** receive notifications to review and approve/reject.
+  - For the **Procurement Team**, the **Procurement Approver** must also be included in the notification/approval flow.
   - **HR** receives notifications of all leave applications and can track all requests and approval statuses.
 - **Auto-Sync & Review:**
   - Approved leave records automatically reflect in attendance and payroll calculations.
@@ -61,15 +61,15 @@
     - **Instarem:** Used for most staff (converted to SGD, no bank fee). **Instarem SGD exchange rate** is **manually entered after the payment has been created in Instarem**.
     - **OCBC Singapore:** Used for direct transfers to **Singapore staff** and **Myanmar staff** (since Instarem does not support Myanmar yet).
 - **Bank Output Format:**
-  - **Excel summary table** for checking and reviewing payroll payments is sufficient (bank upload CSV/Excel templates can be added as an enhancement if templates are provided).
+  - **Excel summary table** for checking and reviewing payroll payments is sufficient for Release 1 (bank upload CSV/Excel templates can be added later if needed).
 
 ---
 
-## 5. GL Codes & Accounting Booking Output (BC)
+## 5. G/L Codes & Accounting Booking Output (BC)
 
-System must generate a **payroll summary with a breakdown by GL code, department, and amount** for accounting entries in **Business Central (BC)** & checking:
+System must generate a **payroll summary with a breakdown by G/L code, department, and amount** for accounting entries in **Business Central (BC)** & checking *(subject to final Finance sign-off before production posting)*:
 
-| GL Code | Department / Category |
+| G/L Code | Department / Category |
 |---|---|
 | `7200` | SCC (Commission) |
 | `7200` | New customer |
@@ -88,9 +88,9 @@ System must generate a **payroll summary with a breakdown by GL code, department
 
 | Role | Access / Responsibilities |
 |---|---|
-| `Staff / Intern` | Submit leave requests, view own leave status & attendance/payslip info |
+| `Staff / Intern` | Submit leave requests, view own leave status & attendance/payslip info (no access to other employees' salaries) |
 | `Approver` | Review, approve/reject leave requests for assigned team/department |
-| `Payroll Viewer` | Read-only access to view payroll summaries *(assigned alongside Approver for **Jessie** and **Clea**)* |
+| `Payroll Viewer` | Read-only access to view payroll summaries *(assigned alongside `Approver` for designated Management/Procurement leads)* |
 | `HR` | Track all leave applications/statuses, review monthly attendance summary before payroll finalization |
-| `Accountant (Mita)` | Manage exchange rates (BC 25th USD, Instarem SGD), commission/rewards, generate payroll, payment summaries & GL booking exports |
-| `Admin` | Manage users, roles, departments, GL codes, country public holiday calendars, and system configuration |
+| `Accountant` | Manage exchange rates (BC 25th USD, Instarem SGD), commission/rewards, generate payroll, payment summaries & G/L booking exports |
+| `Admin` | Manage users, roles, departments, G/L codes, country public holiday calendars, and system configuration |
