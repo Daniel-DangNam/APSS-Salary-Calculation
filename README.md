@@ -20,6 +20,7 @@ This project replaces manual spreadsheet processing with a controlled, auditable
 ## Documentation
 
 - **Requirements & Business Rules:** [English](docs/requirements.md) | [Tiếng Việt](docs/requirements.vi.md)
+- **System Architecture & Workflow Design:** [English](docs/architecture.md) | [Tiếng Việt](docs/architecture.vi.md)
 - **JIRA Progress & Delivery Tracking (`KAN-101`):** [English](docs/jira-progress.md) | [Tiếng Việt](docs/jira-progress.vi.md)
 
 ## Project Status
